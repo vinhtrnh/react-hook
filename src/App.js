@@ -25,11 +25,17 @@ function App() {
   ])
 
   const eventHandle = () => {
+    if (!address) {
+      alert("Please fill the input")
+      return
+    }
+
     let newTodo = {
-      id: 'abc',
+      id: Math.floor((Math.random() * 100) + 1),
       title: address,
       type: 'Drake'
     }
+
     setTodos([...todos, newTodo])
     setAddress('')
   }
@@ -37,14 +43,20 @@ function App() {
     setAddress(event.target.value)
   }
 
+  const deleteTodo = (id) => {
+    let currentTodo = todos
+    currentTodo = currentTodo.filter(item => item.id !== id)
+    setTodos(currentTodo)
+  }
+
   return (
     <div className="App">
       <header className="App-header">
         <Nav />
         <h1>day la hello world with {name}</h1>
-        <Todos todos={todos} title={'Vinh todos'} />
+        <Todos todos={todos} title={'Vinh todos'} deleteTodo={deleteTodo} />
 
-        <Todos todos={todos.filter(todo => todo.type === 'Drake')} title={'Drake todos'} />
+        <Todos todos={todos.filter(todo => todo.type === 'Drake')} title={'Drake todos'} deleteTodo={deleteTodo} />
 
         <input type="text" value={address} onInput={(event) => { handleEventInput(event) }} />
         <button type="button" onClick={eventHandle} >click me daddy</button>
