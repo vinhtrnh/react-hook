@@ -9,18 +9,26 @@ function App() {
   const [todos, setTodos] = useState([
     {
       id: 1,
-      title: 'Watch hoi dan it'
+      title: 'Watch hoi dan it',
+      type: 'Vinh'
     },
     {
       id: 2,
-      title: 'Doing homework'
+      title: 'Doing homework',
+      type: 'Vinh'
+    },
+    {
+      id: 3,
+      title: 'Reading Book',
+      type: 'Drake'
     }
   ])
 
   const eventHandle = () => {
     let newTodo = {
       id: 'abc',
-      title: address
+      title: address,
+      type: 'Drake'
     }
     setTodos([...todos, newTodo])
     setAddress('')
@@ -31,10 +39,13 @@ function App() {
 
   return (
     <div className="App">
-      <Nav />
       <header className="App-header">
+        <Nav />
         <h1>day la hello world with {name}</h1>
-        <Todos todos={todos} />
+        <Todos todos={todos} title={'Vinh todos'} />
+
+        <Todos todos={todos.filter(todo => todo.type === 'Drake')} title={'Drake todos'} />
+
         <input type="text" value={address} onInput={(event) => { handleEventInput(event) }} />
         <button type="button" onClick={eventHandle} >click me daddy</button>
       </header>
