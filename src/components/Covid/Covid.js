@@ -5,11 +5,12 @@ import moment from 'moment';
 
 const Covid = () => {
     const [dataCovid, setDataCovid] = useState([])
-    const [loading, setLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(true)
+    const [isError, setIsError] = useState(false)
 
     useEffect(async () => {
-        setTimeout(async () => {
-            let res = await axios.get('https://api.covid19api.com/country/viet-nam?from=2021-11-01T00:00:00Z&to=2021-12-01T00:00:00Z')
+        try {
+            let res = await axios.get('https://api.covid19api.com/c23ountry/viet-nam?from=2021-11-01T00:00:00Z&to=2021-12-01T00:00:00Z')
             let data = res && res.data ? res.data : []
             if (data && data.length > 0) {
                 data.map(item => {
@@ -19,9 +20,13 @@ const Covid = () => {
                 data = data.reverse()
             }
             setDataCovid(data)
-            setLoading(false)
-        }, 2000)
-
+            setIsLoading(false)
+            setIsError(false)
+        }
+        catch (e) {
+            setIsError(true)
+            setIsLoading(false)
+        }
     }, [])
     return (
         <>
@@ -37,7 +42,7 @@ const Covid = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {loading === false && dataCovid && dataCovid.length > 0 && dataCovid.map((item) => {
+                    {isError === false && isLoading === false && dataCovid && dataCovid.length > 0 && dataCovid.map((item) => {
                         return (
                             <tr key={item.ID}>
                                 <td>{item.Date}</td>
@@ -50,8 +55,12 @@ const Covid = () => {
                         )
                     })}
 
-                    {loading === true && <tr>
+                    {isLoading === true && <tr>
                         <td colSpan="5" style={{ textAlign: 'center' }}>Loading...</td>
+                    </tr>}
+
+                    {isError === true && <tr>
+                        <td colSpan="5" style={{ textAlign: 'center' }}>Something went wrong...</td>
                     </tr>}
 
 
