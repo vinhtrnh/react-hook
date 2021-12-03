@@ -1,7 +1,8 @@
 import Nav from './components/Nav';
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Todos from './components/Todos/Todo';
+import Covid from './components/Covid/Covid';
 
 function App() {
   const [name, setName] = useState('Eric')
@@ -23,6 +24,14 @@ function App() {
       type: 'Drake'
     }
   ])
+
+  useEffect(() => {
+    console.log('Something running')
+  }, [address])
+
+  useEffect(() => {
+    console.log('Something running')
+  }, [todos])
 
   const eventHandle = () => {
     if (!address) {
@@ -54,12 +63,13 @@ function App() {
       <header className="App-header">
         <Nav />
         <h1>day la hello world with {name}</h1>
-        <Todos todos={todos} title={'Vinh todos'} deleteTodo={deleteTodo} />
+        <Covid />
+        {/* <Todos todos={todos} title={'Vinh todos'} deleteTodo={deleteTodo} />
 
         <Todos todos={todos.filter(todo => todo.type === 'Drake')} title={'Drake todos'} deleteTodo={deleteTodo} />
 
         <input type="text" value={address} onInput={(event) => { handleEventInput(event) }} />
-        <button type="button" onClick={eventHandle} >click me daddy</button>
+        <button type="button" onClick={eventHandle} >click me daddy</button> */}
       </header>
     </div>
   );
