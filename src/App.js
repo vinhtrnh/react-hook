@@ -3,6 +3,7 @@ import './App.css';
 import { useState, useEffect } from 'react';
 import Todos from './components/Todos/Todo';
 import Covid from './components/Covid/Covid';
+import Countdown from './components/Countdown';
 
 function App() {
   const [name, setName] = useState('Eric')
@@ -62,6 +63,8 @@ function App() {
     <div className="App">
       <header className="App-header">
         <Nav />
+
+        <Countdown />
         <h1>day la hello world with {name}</h1>
         <Covid />
         {/* <Todos todos={todos} title={'Vinh todos'} deleteTodo={deleteTodo} />
