@@ -4,6 +4,13 @@ import { useState, useEffect } from 'react';
 import Todos from './components/Todos/Todo';
 import Covid from './components/Covid/Covid';
 import Countdown from './components/Countdown';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useRouteMatch
+} from "react-router-dom";
 
 function App() {
   const [name, setName] = useState('Eric')
@@ -59,22 +66,45 @@ function App() {
     setTodos(currentTodo)
   }
 
+  const onTimesUp = () => {
+    // alert('Times up')
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <Nav />
+    <Router>
+      <div className="App">
+        <header className="App-header">
+          <Nav />
+        </header>
+        <div style={{ backGroundColor: '#282c34' }}>
+          <Switch>
 
-        <Countdown />
-        <h1>day la hello world with {name}</h1>
-        <Covid />
-        {/* <Todos todos={todos} title={'Vinh todos'} deleteTodo={deleteTodo} />
+            <Route path="/home" exact>
+              <h1>Welcome to my React basic app</h1>
+              <h3>Use Nav menu to orther app</h3>
+            </Route>
 
-        <Todos todos={todos.filter(todo => todo.type === 'Drake')} title={'Drake todos'} deleteTodo={deleteTodo} />
+            <Route path="/covid" exact>
+              <Covid />
+            </Route>
 
-        <input type="text" value={address} onInput={(event) => { handleEventInput(event) }} />
-        <button type="button" onClick={eventHandle} >click me daddy</button> */}
-      </header>
-    </div>
+            <Route path="/timer">
+              <Countdown onTimesUp={onTimesUp} />
+            </Route>
+
+            <Route path="/todo">
+              <Todos todos={todos} title={'Vinh todos'} deleteTodo={deleteTodo} />
+
+              <Todos todos={todos.filter(todo => todo.type === 'Drake')} title={'Drake todos'} deleteTodo={deleteTodo} />
+
+              <input type="text" value={address} onInput={(event) => { handleEventInput(event) }} />
+              <button type="button" onClick={eventHandle} >click me</button>
+            </Route>
+
+          </Switch>
+        </div>
+      </div>
+    </Router>
   );
 }
 

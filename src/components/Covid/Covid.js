@@ -4,12 +4,12 @@ import moment from "moment";
 
 
 const Covid = () => {
-    const today = new Date(new Date().setHours(0, 0, 0, 0));
-    const priorDate = moment().subtract(30, 'days')
+    const today = moment().startOf('day').toISOString(true)
+    const priorDate = moment().startOf('day').subtract(30, 'days').toISOString(true)
     const { data: dataCovid, isLoading, isError }
-        = useFetch(`https://api.covid19api.com/country/viet-nam?from=${priorDate.toISOString()}&to=${today.toISOString()}`)
+        = useFetch(`https://api.covid19api.com/country/viet-nam?from=${priorDate}&to=${today}`)
     return (
-        <>
+        <div style={{ background: '#282c34', color: 'white' }}>
             <h3>Covid-19 Tracking in VietNam</h3>
             <table>
                 <thead>
@@ -46,7 +46,7 @@ const Covid = () => {
 
                 </tbody>
             </table>
-        </>
+        </div>
     )
 }
 

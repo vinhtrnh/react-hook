@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
 
-const Countdown = () => {
-    const [countDown, setCountDown] = useState(10)
+const Countdown = (props) => {
+    const [countDown, setCountDown] = useState(30)
     useEffect(() => {
         if (countDown === 0) {
+            props.onTimesUp()
             return
         }
         let timer = setInterval(() => setCountDown(countDown - 1), 1000)
@@ -13,7 +14,10 @@ const Countdown = () => {
         }
     }, [countDown])
     return (
-        <div>{countDown} </div>
+        <>
+            <h2>TIMER OTP please wait </h2>
+            <div style={{ marginTop: '20px' }}>{countDown} </div>
+        </>
     )
 }
 
