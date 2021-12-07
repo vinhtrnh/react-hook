@@ -8,10 +8,11 @@ const useFetch = (url) => {
     const [isError, setIsError] = useState(false)
 
     useEffect(() => {
-        try {
-            async function fetchData() {
+        const ourRequest = axios.CancelToken.source() // <-- 1st step
+        async function fetchData() {
+            try {
                 // You can await here
-                let res = await axios.get(url)
+                let res = await axios.get(url, { cancelToken: ourRequest.token })
                 let data = res && res.data ? res.data : []
                 if (data && data.length > 0) {
                     data.map(item => {
@@ -26,12 +27,22 @@ const useFetch = (url) => {
                 // ...
 
             }
-            fetchData();
+            catch (err) {
+                if (axios.isCancel(err)) {
+                    console.log('Request cancelled', err.message)
+                } else {
+
+                    setIsError(true)
+                    setIsLoading(false)
+                }
+            }
         }
-        catch (e) {
-            setIsError(true)
-            setIsLoading(false)
+
+        fetchData();
+        return () => {
+            ourRequest.cancel('Operation cancel by the user') // <-- 3rd step
         }
+
     }, [url])
     return {
 
